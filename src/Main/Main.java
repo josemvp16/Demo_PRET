@@ -1,21 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Main;
 
-/**
- *
- * @author J.Israel
- */
+import java.awt.Dimension;
+
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Monitor Demo_PREP = new Monitor();
+        Demo_PREP.setSize(new Dimension(800,600));
+        Demo_PREP.setTitle("Demo_PREP");
+        Demo_PREP.setLocationRelativeTo(null);
+        Demo_PREP.setVisible(true);
     }
     
 }
