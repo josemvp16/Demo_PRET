@@ -2,6 +2,7 @@
 package Database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -62,13 +63,13 @@ public class ConsultaVotos {
         try{
             try (Statement consulta = conectar.createStatement()) {
                 String query = "SELECT cveCasilla, pri, pan, prd FROM voto WHERE cveCasilla='"+ casilla+"'";
-                ResultSet resultado = consulta.executeQuery(query);
-                if(resultado.next()){
-                    setVotosPRI(resultado.getInt("pri"));
-                    setVotosPAN(resultado.getInt("pan"));
-                    setVotosPRD(resultado.getInt("prd"));
+                try (ResultSet resultado = consulta.executeQuery(query)) {
+                    if(resultado.next()){
+                        setVotosPRI(resultado.getInt("pri"));
+                        setVotosPAN(resultado.getInt("pan"));
+                        setVotosPRD(resultado.getInt("prd"));
+                    }
                 }
-                resultado.close();
             }
             conectar.close();
             conexion.CloseConection();
@@ -89,12 +90,12 @@ public class ConsultaVotos {
         try{
             try (Statement consulta = conectar.createStatement()) {
                 String query = "SELECT cveCasilla, mensaje, status FROM estado WHERE cveCasilla='"+ casilla+"'";
-                ResultSet resultado = consulta.executeQuery(query);
-                if(resultado.next()){
-                    setMensaje(resultado.getString("mensaje"));
-                    setStatus(resultado.getString("status"));
+                try (ResultSet resultado = consulta.executeQuery(query)) {
+                    if(resultado.next()){
+                        setMensaje(resultado.getString("mensaje"));
+                        setStatus(resultado.getString("status"));
+                    }
                 }
-                resultado.close();
             }
             conectar.close();
             conexion.CloseConection();
@@ -106,6 +107,35 @@ public class ConsultaVotos {
             getStatus(),
         };
         return estadoCasilla;
+    }
+    
+    public void updateVotos(String casilla, int vpri, int vpan, int vprd) {
+        ConexionSGBD conexion = new ConexionSGBD("shiftdb","champeto","192.168.1.65", "simons83");
+        Connection conectar = conexion.ConectToDatabase();
+        try {
+            String query = "UPDATE voto set pri=?, pan=?,prd=? WHERE cveCasilla= '" + casilla + "'";
+            PreparedStatement consulta = conectar.prepareStatement(query);
+            consulta.setInt(1, vpri);
+            consulta.setInt(2, vpan);
+            consulta.setInt(3, vprd);
+            consulta.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error SQL");
+        }
+    }
+    
+    public void updateEstado(String casilla, String msj, String status) {
+        ConexionSGBD conexion = new ConexionSGBD("shiftdb","champeto","192.168.1.65", "simons83");
+        Connection conectar = conexion.ConectToDatabase();
+        try {
+            String query = "UPDATE estado set mensaje=?, status=? WHERE cveCasilla= '" + casilla + "'";
+            PreparedStatement consulta = conectar.prepareStatement(query);
+            consulta.setString(1, msj);
+            consulta.setString(2, status);
+            consulta.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error SQL");
+        }
     }
     
 }
