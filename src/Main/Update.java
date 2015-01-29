@@ -1,7 +1,7 @@
 
 package Main;
 
-import Database.ConsultaVotos;
+import Database.DBQueries;
 import static Main.Monitor.labelPAN;
 import static Main.Monitor.labelPRD;
 import static Main.Monitor.labelPRI;
@@ -14,7 +14,7 @@ public class Update implements Runnable{
     public void run() {
         try{
             while(true){
-                ConsultaVotos cd = new ConsultaVotos();
+                DBQueries cd = new DBQueries();
                 int votos[] = cd.getVotosEstado("1225");
                 String estado[] = cd.getEstadoCasilla("1225");
                 labelPRI.setText("" + votos[0]);

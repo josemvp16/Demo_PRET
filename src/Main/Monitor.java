@@ -5,7 +5,7 @@
  */
 package Main;
 
-import Database.ConsultaVotos;
+import Database.DBQueries;
 import java.awt.Color;
 
 /**

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Mapas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <input type="button" onclick="init()" value="Mostrar mapas">
+        <div id="map" style="width: 500px; height: 400px" ></div>
+    <scrip src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15017.261618757628!2d-98.5510209!3d19.784220149999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1b5cab5e0e169%3A0x0ef87b91a8982803!2sTepeapulco%2C+HGO!5e0!3m2!1ses!2smx!4v1422563891531" width="600" height="450" frameborder="0" style="border:0"?sensor=false&callback=init">  </scrip>
+
+    <script type="text/javascript" src="../javascript/jquery-1.11.1.js">
+
+            var map;
+            var marker;
+            function init() {
+                var image = new google.maps.MarkerImage(
+                        'https://www.google.com.mx/search?q=ife&biw=667&bih=649&source=lnms&tbm=isch&sa=X&ei=spjKVPvXJpavyATQ4YHIBw&ved=0CAcQ_AUoAg#tbm=isch&q=ine&imgdii=_&imgrc=RGOvF8kOeX1aBM%253A%3B8icQ-sNU5T_FtM%3Bhttp%253A%252F%252Flaisureste.com%252Fwp-content%252Fuploads%252F2014%252F11%252FINE.jpg%3Bhttp%253A%252F%252Flaisureste.com%252Fnoticias-mexico%252Fel-15-de-enero-fecha-limite-para-renovar-credencial-para-votar-ine%3B640%3B447',
+                        new google.maps.size(50.28)
+                        );
+                var mapOptions = {
+                    center: new google.maps.LatLng(19.7842201, -98.5510209),
+                    zoom: 15,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                map = new google.maps.Map(document.getElementById("map").mapOptions);
+
+                var place = new google.maps.LatLng(19.7842201, -98.5510209);
+                marker = new google.maps.Marker({
+                    position: place,
+                    title: "Plaza del Pilar",
+                    map: map
+                            icon: image
+                });
+                google.maps.event.addListener(marker."click".showInfo);
+            }
+            function showInfo() {
+                map.setZoom(16);
+                map.setCenter(marker.getPosition());
+                var infoindow = new google.maps.InfoWindow({
+                    content: "Plaza Zaragoza"
+                });
+                infoindow.open(map.marker);
+            }
+
+    </script>
+</body>
+</html>

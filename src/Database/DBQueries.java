@@ -5,15 +5,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Date;
+import java.sql.Timestamp;
 
-public class ConsultaVotos {
+public class DBQueries {
     private int votosPRI;
     private int votosPAN;
     private int votosPRD;
     private String mensaje;
     private String status;
 
-    public ConsultaVotos() {
+    public DBQueries() {
     }
 
     public int getVotosPRI() {
@@ -138,4 +140,35 @@ public class ConsultaVotos {
         }
     }
     
+    public void insertBitacora(String cveFuncionario, String asunto, String nota, String fecha, String hora) {
+        ConexionSGBD conexion = new ConexionSGBD("shiftdb", "champeto", "192.168.1.65", "simons83");
+        Connection conectar = conexion.ConectToDatabase();
+        Date fechaSystem = new Date(System.currentTimeMillis());
+        Timestamp horaSystem = new Timestamp(fechaSystem.getTime());
+        try {
+            String query = "INSERT INTO bitacoras VALUES(?,?,?,?,?)";
+            PreparedStatement consulta = conectar.prepareStatement(query);
+            consulta.setString(1, cveFuncionario);
+            consulta.setString(2, asunto);
+            consulta.setString(3, nota);
+            consulta.setDate(4, fechaSystem);
+            consulta.setTimestamp(5, horaSystem);
+            consulta.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error SQL");
+        }
+    }
+
+    public void updateResultados(String celular, String candidato, String votos) {
+        ConexionSGBD conexion = new ConexionSGBD("shiftdb", "champeto", "192.168.1.65", "simons83");
+        Connection conectar = conexion.ConectToDatabase();
+        try {
+            String query = "UPDATE resultados SET numvotos=?  WHERE cveFuncionario= '" + celular + "' and cveCandidato= '" + candidato + "'";
+            PreparedStatement consulta = conectar.prepareStatement(query);
+            consulta.setString(1, votos);
+            consulta.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error SQL");
+        }
+    }    
 }
